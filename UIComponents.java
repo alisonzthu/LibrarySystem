@@ -860,8 +860,6 @@ public class UIComponents extends JPanel {
         maincard5Panel.add(homeButtonPanel, new GBC(5, 0).setAnchor(GBC.WEST));
         maincard5Panel.add(tabbedPane, new GBC(0, 1, 6, 2).setAnchor(GBC.CENTER));
         return maincard5Panel;
-
-
     }
 
 }
