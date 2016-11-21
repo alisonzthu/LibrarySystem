@@ -1,6 +1,4 @@
-package Nov16LibrarySystem;
-
-import Nov16LibrarySystem.ConnectionManager;
+package Nov16LibrarySystem.DBUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;

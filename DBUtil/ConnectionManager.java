@@ -1,4 +1,4 @@
-package Nov16LibrarySystem;
+package Nov16LibrarySystem.DBUtil;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

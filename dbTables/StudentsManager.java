@@ -1,128 +1,115 @@
-package Nov16LibrarySystem.dbTables;
+package Nov16LibrarySystem.DBTables;
 
-import Nov16LibrarySystem.ConnectionManager;
+import Nov16LibrarySystem.DBUtil.ConnectionManager;
 import Nov16LibrarySystem.JavaBeans.Student;
 
-import javax.swing.*;
 import java.sql.*;
 
 /**
  * Created by macstudio on 11/11/16.
  */
 public class StudentsManager {
+    private static Connection conn = ConnectionManager.getInstance().getConnection();
 
-    public static boolean updateStudent(Student bean){
-        Connection conn = ConnectionManager.getInstance().getConnection();
+    public static boolean updateStudent(Student bean) throws SQLException {
+
         String sql = "UPDATE students SET " + "StudentName = ?, Year = ?, Semester = ?, ContactNo = ? WHERE RegistrationNo = ?";
-        try(
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                ){
-            stmt.setString(1, bean.getStudentName());
-            stmt.setInt(2, bean.getYear());
-            stmt.setString(3, bean.getSmster());
-            stmt.setLong(4, bean.getContactNo());
-            stmt.setInt(5, bean.getRegistrationNo());
+        PreparedStatement stmt = conn.prepareStatement(sql);
 
-            int affected = stmt.executeUpdate();
-            if(affected == 1){
-                return true;
-            }else{
-                return false;
-            }
+        stmt.setString(1, bean.getStudentName());
+        stmt.setInt(2, bean.getYear());
+        stmt.setString(3, bean.getSmster());
+        stmt.setLong(4, bean.getContactNo());
+        stmt.setInt(5, bean.getRegistrationNo());
 
-        }catch(SQLException e){
-            e.printStackTrace();
+        int affected = stmt.executeUpdate();
+        stmt.close();
+        if (affected == 1) {
+            return true;
+        } else {
             return false;
         }
     }
 
-    public static Student searchByRegiNo(String regNo){
-        try{
-            int regNum = Integer.parseInt(regNo);
-            String sql = "SELECT StudentName, Year, Semester, ContactNo FROM students WHERE RegistrationNo = ?";
-            Connection conn = ConnectionManager.getInstance().getConnection();
-            ResultSet rs = null;
-            try(
-                    PreparedStatement stmt = conn.prepareStatement(sql);
-                    ){
-                stmt.setInt(1, regNum);
-                rs = stmt.executeQuery();
-                if(rs.next()){
-                    Student bean = new Student();
-                    bean.setRegistrationNo(regNum);
-                    bean.setStudentName(rs.getString("StudentName"));
-                    bean.setYear(rs.getInt("Year"));
-                    bean.setSmster(rs.getString("Semester"));
-                    bean.setContactNo(rs.getLong("ContactNo"));
-                    return bean;
-                }else{
-                    JOptionPane.showMessageDialog(null, "No students found!");
-                    return null;
-                }
-            }catch(SQLException ex){
-                ex.printStackTrace();
-                return null;
-            }finally {
-                try{
-                    if(rs != null){
-                        rs.close();
-                    }
-                }catch(SQLException exception){
-                    exception.printStackTrace();
-                }
-            }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Registration number should be pure numeric!");
+    public static Student searchByRegiNo(String regNo) throws SQLException, NumberFormatException {
+
+        int regNum = Integer.parseInt(regNo);
+        String sql = "SELECT StudentName, Year, Semester, ContactNo FROM students WHERE RegistrationNo = ?";
+
+        ResultSet rs = null;
+        PreparedStatement stmt = conn.prepareStatement(sql);
+
+        stmt.setInt(1, regNum);
+        rs = stmt.executeQuery();
+        if (rs.next()) {
+            Student bean = new Student();
+            bean.setRegistrationNo(regNum);
+            bean.setStudentName(rs.getString("StudentName"));
+            bean.setYear(rs.getInt("Year"));
+            bean.setSmster(rs.getString("Semester"));
+            bean.setContactNo(rs.getLong("ContactNo"));
+            rs.close();
+            stmt.close();
+            return bean;
+        } else {
+            rs.close();
+            stmt.close();
             return null;
         }
     }
 
-    public static void addStudent(Student bean){
+    public static boolean addStudent(Student bean) throws SQLException {
         String sql = "INSERT INTO students (RegistrationNo, StudentName, Year, Semester, ContactNo)" + "VALUES(?, ?, ?, ?, ?)";
-        Connection conn = ConnectionManager.getInstance().getConnection();
-        try(
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                ){
-            stmt.setInt(1, bean.getRegistrationNo());
-            stmt.setString(2, bean.getStudentName());
-            stmt.setInt(3, bean.getYear());
-            stmt.setString(4, bean.getSmster());
-            stmt.setLong(5, bean.getContactNo());
-            int affected = stmt.executeUpdate();
-            if(affected == 1){
-                JOptionPane.showMessageDialog(null, "Student added!");
-            }else{
-                JOptionPane.showMessageDialog(null, "Failed to add student!");
-            }
-        }catch(SQLException e){
-            e.printStackTrace();
+
+        PreparedStatement stmt = conn.prepareStatement(sql);
+
+        stmt.setInt(1, bean.getRegistrationNo());
+        stmt.setString(2, bean.getStudentName());
+        stmt.setInt(3, bean.getYear());
+        stmt.setString(4, bean.getSmster());
+        stmt.setLong(5, bean.getContactNo());
+        int affected = stmt.executeUpdate();
+        stmt.close();
+        if (affected == 1) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public static boolean studentExisted(String regiNo){
-        try {
-            int regiNum = Integer.parseInt(regiNo);
-            Connection conn = ConnectionManager.getInstance().getConnection();
-            String sql = "SELECT RegistrationNo FROM students";
-            try(
-                    Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(sql);
-            ){
-                while(rs.next()){
-                    int existingRegiNo = rs.getInt("RegistrationNo");
-                    if(existingRegiNo == regiNum){
-                        return true;
-                    }
-                }
-              return false;
-            }catch(SQLException e){
-                e.printStackTrace();
-                return false;
-            }
-        }catch(Exception e){
-//            JOptionPane.showMessageDialog(null, "Registration number should be pure numeric!");
-            return false;
-        }
+    public static boolean studentExisted(String regiNo) throws SQLException, NumberFormatException {
 
+        int regiNum = Integer.parseInt(regiNo);
+        String sql = "SELECT RegistrationNo FROM students";
+
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        while (rs.next()) {
+            int existingRegiNo = rs.getInt("RegistrationNo");
+            if (existingRegiNo == regiNum) {
+                rs.close();
+                stmt.close();
+                return true;
+            }
+        }
+        rs.close();
+        stmt.close();
+        return false;
+    }
+
+    public static boolean removeStudent(String regiNum) throws NumberFormatException, SQLException{
+        int regNumber = Integer.parseInt(regiNum);
+        String sql = "DELETE FROM students WHERE RegistrationNo = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, regNumber);
+        int affected = stmt.executeUpdate();
+        if(stmt != null) {
+            stmt.close();
+        }
+        if(affected == 1){
+            return true;
+        }
+        return false;
     }
 }

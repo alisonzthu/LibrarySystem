@@ -1,4 +1,4 @@
-package Nov16LibrarySystem;
+package Nov16LibrarySystem.UIPackage;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;

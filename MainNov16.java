@@ -1,5 +1,7 @@
 package Nov16LibrarySystem;
 
+import Nov16LibrarySystem.DBUtil.ConnectionManager;
+
 import java.awt.*;
 import java.sql.Connection;
 
@@ -18,7 +20,7 @@ public class MainNov16 {
         EventQueue.invokeLater(new Runnable(){
             public void run(){
                 Connection connection = ConnectionManager.getInstance().getConnection();
-                Frame frame = new Frame();
+                Nov16LibrarySystem.UIPackage.Frame frame = new Nov16LibrarySystem.UIPackage.Frame();
 
             }
         });

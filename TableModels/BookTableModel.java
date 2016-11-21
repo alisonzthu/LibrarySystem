@@ -1,6 +1,6 @@
 package Nov16LibrarySystem.TableModels;
 
-import Nov16LibrarySystem.ConnectionManager;
+import Nov16LibrarySystem.DBUtil.ConnectionManager;
 
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;

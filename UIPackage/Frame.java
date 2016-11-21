@@ -1,7 +1,6 @@
-package Nov16LibrarySystem;
+package Nov16LibrarySystem.UIPackage;
 
-import Nov16LibrarySystem.ConnectionManager;
-import Nov16LibrarySystem.UIComponents;
+import Nov16LibrarySystem.DBUtil.ConnectionManager;
 
 import javax.swing.*;
 import java.awt.*;

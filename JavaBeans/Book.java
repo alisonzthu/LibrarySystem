@@ -14,6 +14,16 @@ public class Book {
     private int edition;
     private int clAccession;
 
+    public int getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(int available) {
+        this.available = available;
+    }
+
+    private int available;
+
     public String getISBN() {
         return iSBN;
     }
