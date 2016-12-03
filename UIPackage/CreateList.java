@@ -71,7 +71,7 @@ public class CreateList {
                     public void actionPerformed(ActionEvent e) {
                         UIComponents.nextCard();
                         UIComponents. nextCard();
-                        UIComponents.nextCard();//go to card5
+                        UIComponents.nextCard();//go to maincard5
                     }
                 }
         );
@@ -94,7 +94,7 @@ public class CreateList {
                 UIComponents.nextCard();
                 UIComponents. nextCard();
                 UIComponents.nextCard();
-                UIComponents.nextCard();//go to card6
+                UIComponents.nextCard();//go to maincard6
             }
         });
         listPanel.add(borrowBookButton, new GBC(3, 0).setAnchor(GBC.CENTER));
@@ -109,6 +109,16 @@ public class CreateList {
         JButton chngPss = new JButton(changePass);
         chngPss.setPreferredSize(new Dimension(100, 100));
         chngPss.setHorizontalAlignment(JButton.CENTER);
+        chngPss.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UIComponents.nextCard();
+                UIComponents. nextCard();
+                UIComponents.nextCard();
+                UIComponents.nextCard();
+                UIComponents.nextCard();// go to maincard7
+            }
+        });
         listPanel.add(chngPss, new GBC(4, 0).setAnchor(GBC.CENTER));
 
         JLabel chngPssLine1 = new JLabel("Change");

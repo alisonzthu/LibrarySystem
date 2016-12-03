@@ -12,6 +12,7 @@ import java.util.Arrays;
  */
 public class BooksManager {
     private static Connection conn = ConnectionManager.getInstance().getConnection();
+
     public static boolean updateBook(Book bean) throws SQLException {
         String sql = "UPDATE books SET " + "ISBNNo = ?, BookTitle = ?, AuthorName = ?, BookshelfNo = ?, RowNo = ?, ColumnNo = ?, Edition = ?, CLAccession = ? WHERE AccessionNo = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -170,5 +171,23 @@ public class BooksManager {
             stmt.close();
             return resultCopies;
         }
+    }
+
+    public static boolean getAvailByAcsNo(String acsNo) throws SQLException{
+        String sql = "SELECT available FROM books WHERE AccessionNo = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = null;
+        stmt.setString(1, acsNo);
+        rs = stmt.executeQuery();
+        if(rs.next()){
+            if(rs.getInt("available") == 1) {
+                rs.close();
+                stmt.close();
+                return true;
+            }
+        }
+        rs.close();
+        stmt.close();
+        return false;
     }
 }

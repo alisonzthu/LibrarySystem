@@ -16,6 +16,10 @@ public class UIComponents extends JPanel {
         userName.setText(uName);
     }
 
+    public static String getUserName(){
+        return userName.getText();
+    }
+
     public static void setUserPassword(String newpass) {
         userPassword.setText(newpass);
     }
@@ -42,6 +46,9 @@ public class UIComponents extends JPanel {
 
         CreateBorrowBooks brwBooks = new CreateBorrowBooks();
         cards.add(brwBooks.borrowBooks());//maincard6
+
+        CreateChangePwd chngpwd = new CreateChangePwd();
+        cards.add(chngpwd.changePwd());//maincard7
 
         add(cards);
     }
