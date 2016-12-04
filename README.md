@@ -1,4 +1,7 @@
 # Library Management System:
+
+The program is all written by Alison. The cdschenshuai commit was caused by confusion on local Github username.
+
 1. UIPackage has the main component. What its classes do：
     * "UIComponents" creates different page views and put them under the control of a CardLayout manager；
     * "CreateLogIn" creates the log in panel；
